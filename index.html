@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #answer {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            color: aliceblue;
+            font-size: 100px;
+        }
+    </style>
+</head>
+<body>
+<span id="answer"></span>
+<script src="https://algorithmia.com/v1/clients/js/algorithmia-0.2.1.js" type="text/javascript"></script>
+
+<script>
+    let ans = document.getElementById("answer");
+
+    let ina = prompt("Sisesta nimi ja ma arvan ara kas ta on mees või naine :)", "")
+    var input = {
+        "name": ina
+    };
+    Algorithmia.client("simw6Qoh+4j79kEv1ly3HHgDLzA1")
+        .algo("borzaresearch/GenderByName/0.1.0?timeout=300") // timeout is optional
+        .pipe(input)
+        .then(function (output) {
+            let str = JSON.stringify(output.result.gender);
+
+            if (output.result.gender.female > output.result.gender.male) {
+                document.body.style.background = "pink";
+                ans.textContent = ina + " on naine";
+
+            } else {
+                document.body.style.background = "deepskyblue";
+                ans.textContent = ina + " on mees";
+            }
+        });
+</script>
+</body>
+</html>
